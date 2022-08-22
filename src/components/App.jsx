@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+import { Box } from './ContactForm/ContactForm.styled';
 
 export class App extends Component {
   
@@ -19,12 +20,16 @@ export class App extends Component {
 
   handleOnSubmit = (data) => {
     console.log(data);
-    
     data.id = nanoid();
 
-    this.setState(({contacts}) => ({
+    const sameName = this.state.contacts.find(contact => contact.name === data.name.trim());
+    if (!sameName) {
+      this.setState(({contacts}) => ({
       contacts: [data, ...contacts]
     }));
+    } else {
+      return alert(`${sameName.name} is already in contacts.`);
+    };  
   };
 
   onHandleFilterChange = (event) => {
@@ -52,13 +57,17 @@ export class App extends Component {
 
     return (
       <>
-        <ContactForm onSubmit={this.handleOnSubmit} />
+        <Box>
+          <h1>Name contacts</h1>
+
+          <ContactForm onSubmit={this.handleOnSubmit} />
         
-        <h2>Contacts</h2>
+          <h2>Contacts</h2>
 
-        <Filter filterValue={this.state.filter} onChange={ this.onHandleFilterChange } />
+          <Filter filterValue={this.state.filter} onChange={ this.onHandleFilterChange } />
 
-        <ContactList onFilter={this.filterContactList()} onDelete={this.handleDeleteContact}/>
+          <ContactList onFilter={this.filterContactList()} onDelete={this.handleDeleteContact}/>
+        </Box>
       </>     
     )
   }

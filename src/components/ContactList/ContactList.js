@@ -1,12 +1,25 @@
+import PropTypes from 'prop-types';
+import { List, ListItem } from "./ContactList.styled";
 
 export const ContactList = ({ onFilter, onDelete }) => {
     return (
-        <ul>
+        <List>
             {onFilter.map(({ id, name, number }) => {
                 return (
-                    <li key={id}><span>{name}</span><span> {number}</span> <button type="button" onClick={() => { onDelete(id) }}>Delete</button></li>
+                    <ListItem key={id}><span>{name}</span><span> {number}</span> <button type="button" onClick={() => { onDelete(id) }}>Delete</button></ListItem>
                 )
             })}
-        </ul>
+        </List>
     );
 };
+
+ContactList.prototype = {
+    onFilter: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            number: PropTypes.string.isRequired,
+            id: PropTypes.string.isRequired,
+    })
+    ),
+    onDelete: PropTypes.func.isRequired,
+}
