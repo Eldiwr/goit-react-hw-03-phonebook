@@ -1,7 +1,8 @@
+import { nanoid } from 'nanoid';
 import { Component } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
-import { nanoid } from 'nanoid';
-
+import { Filter } from './Filter/Filter';
+import { ContactList } from './ContactList/ContactList';
 
 export class App extends Component {
   
@@ -26,10 +27,10 @@ export class App extends Component {
     }));
   };
 
-  onHandleChange = (event) => {
-        const { name,value } = event.currentTarget;
+  onHandleFilterChange = (event) => {
+        const { value } = event.currentTarget;
     
-        this.setState({ [name]: value });
+        this.setState({ filter: value });
   };
   
   filterContactList = () => {
@@ -39,31 +40,25 @@ export class App extends Component {
 
     return contacts.filter(contact => contact.name.toLowerCase().includes(filterValue));
   };
+
+  handleDeleteContact = (id) => {
+    this.setState((prevState) => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
+  };
   
 
   render() {
+
     return (
       <>
         <ContactForm onSubmit={this.handleOnSubmit} />
         
         <h2>Contacts</h2>
 
-        <label>
-          <input
-            type="text"
-            name="filter"
-            value={this.state.filter}
-            onChange={this.onHandleChange}
-          />
-        </label>
+        <Filter filterValue={this.state.filter} onChange={ this.onHandleFilterChange } />
 
-        <ul>
-          {this.filterContactList().map(({id, name, number} ) => {
-            return (
-              <li key={id}><span>{name}</span><span> { number}</span></li>
-            )
-          })}
-        </ul>
+        <ContactList onFilter={this.filterContactList()} onDelete={this.handleDeleteContact}/>
       </>     
     )
   }
