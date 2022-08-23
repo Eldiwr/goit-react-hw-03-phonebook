@@ -12,3 +12,11 @@ export const ListItem = styled.li`
 
     margin-top: 10px;
 `
+
+export const Button = styled.button`
+    background-color: white;
+    border-radius: 4px;
+    &:hover{
+      background-color: violet;
+    }
+`
