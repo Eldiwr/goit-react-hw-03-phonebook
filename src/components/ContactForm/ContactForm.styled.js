@@ -23,4 +23,9 @@ export const Button = styled.button`
    width: 100px;
    padding: 5px;
    margin-top: 10px;
+   background-color: white;
+   border-radius: 4px;
+   &:hover{
+      background-color: violet;
+   }
 `
