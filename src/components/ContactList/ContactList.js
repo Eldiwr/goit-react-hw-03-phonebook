@@ -1,14 +1,11 @@
 import PropTypes from 'prop-types';
-import { List, ListItem, Button } from "./ContactList.styled";
+import { List} from "./ContactList.styled";
+import { ContactListItem } from './ContactListItem';
 
 export const ContactList = ({ onFilter, onDelete }) => {
     return (
         <List>
-            {onFilter.map(({ id, name, number }) => {
-                return (
-                    <ListItem key={id}><span>{name}</span><span> {number}</span> <Button type="button" onClick={() => { onDelete(id) }}>Delete</Button></ListItem>
-                )
-            })}
+            <ContactListItem onFilter={onFilter} onDelete={onDelete} />
         </List>
     );
 };
@@ -19,7 +16,7 @@ ContactList.prototype = {
             name: PropTypes.string.isRequired,
             number: PropTypes.string.isRequired,
             id: PropTypes.string.isRequired,
-    })
+        })
     ),
     onDelete: PropTypes.func.isRequired,
-}
+};
