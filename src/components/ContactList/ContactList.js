@@ -5,7 +5,11 @@ import { ContactListItem } from './ContactListItem';
 export const ContactList = ({ onFilter, onDelete }) => {
     return (
         <List>
-            <ContactListItem onFilter={onFilter} onDelete={onDelete} />
+            {onFilter.map(({ id, name, number }) => {
+                return (
+                    <ContactListItem key={id} contact={{ id, name, number }} onDelete={onDelete} />
+                );   
+            })}    
         </List>
     );
 };
