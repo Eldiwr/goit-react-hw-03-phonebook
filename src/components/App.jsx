@@ -15,8 +15,23 @@ export class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     
-    filter:''
-  }
+    filter: ''
+  };
+
+  componentDidMount() {
+    const savedContacts = localStorage.getItem("saved_contacts");
+    const parsedContacts = JSON.parse(savedContacts);
+    if (parsedContacts) {
+      this.setState({contacts: parsedContacts})
+    };
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem("saved_contacts", JSON.stringify(this.state.contacts));
+    };
+    console.log(this.state.contacts);
+  };
 
   handleOnSubmit = (data) => {
     console.log(data);
